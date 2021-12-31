@@ -1,0 +1,226 @@
+:root {
+    --header-color: rgba(100, 100, 100, 0.5);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family:'Times New Roman', Times, serif;
+}
+
+h1 {
+    font-size: 70px;
+}
+
+h2 {
+    font-size: 60px;
+}
+
+h3 {
+    font-size: 50px;
+}
+
+h4 {
+    font-size: 40px;
+}
+
+h5 {
+    font-size: 30px;
+}
+
+.flex-row {
+    display: flex;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.j-center {
+    justify-content: center;
+}
+
+.j-right {
+    justify-content: right;
+}
+
+.j-left {
+    justify-content: left;
+}
+
+.j-space-between {
+    justify-content: space-between
+}
+
+.j-space-around {
+    justify-content: space-around
+}
+
+.j-space-evenly {
+    justify-content:space-evenly
+}
+
+.a-center {
+    align-items: center;
+}
+
+.a-right {
+    align-items: right;
+}
+
+.a-left {
+    align-items: left;
+}
+
+.w-25 {
+    width: 25%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-25 {
+    height: 25%
+}
+
+.h-50 {
+    height: 50%
+}
+
+.h-75 {
+    height: 75%
+}
+
+.h-100 {
+    height: 100%
+}
+
+.h-25vh {
+    height: 25vh;
+}
+
+.h-50vh {
+    height: 50vh;
+}
+
+.h-75vh {
+    height: 75vh;
+}
+
+.h-100vh {
+    height: 100vh;
+}
+
+.w-25vh {
+    width: 25vh;
+}
+
+.w-50vh {
+    width: 50vh;
+}
+
+.w-75vh {
+    width: 75vh;
+}
+
+.w-100vh {
+    width: 100vh;
+}
+
+.h-fit-content {
+    height: fit-content
+}
+
+.w-fit-content {
+    width: fit-content
+}
+
+header {
+    width: 100%;
+    height: 10vh;
+    background: #83a4d4;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.sidebar-container {
+    width: fit-content;
+    max-width: 30vw;
+    height: 100%;
+}
+
+.city-search {
+    margin: 20px;
+    border-bottom: 1px solid black;
+}
+
+.search {
+    width: 100%;
+    height: 50px;
+    margin: 30px;
+}
+
+.search-btn {
+    margin: 10px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.result-btn, .clear-results-btn {
+    width: 95%;
+    height: 40px;
+    margin: 10px;
+}
+
+.weather-data-container {
+    width: 100%;
+    margin: 20px;
+}
+
+.right-column {
+    background-color: rgba(16, 112, 202, 0.5);
+    margin-left: 10px;
+}
+
+.right-column h4 {
+    margin-left: 10px;
+}
+
+.left-column h1 {
+    font-style: italic;
+}
+
+.weather-tile {
+    height: fit-content;
+    width: fit-content;
+    background-color: rgba(14, 58, 177, 0.5);
+}
+
+.weather-tile {
+    height: 500px;
+    width: 300px;
+    margin: 30px;
+}
+
+

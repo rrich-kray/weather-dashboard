@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <header class="flex-row a-center j-center w-100">
+        <h1>Weather Dashboard</h1>
+    </header>
+    <div class="main-container flex-row h-100">
+        <div class="sidebar-container flex-column">
+            <div class="city-search flex-column j-center a-center">
+                <h2>Search for a City:</h2>
+                <input type="text" class="search flex-row">
+                <button class="search-btn">Search</button>
+                <button class="clear-results-btn">Clear Searches</button>
+            </div>
+            <div class="search-results flex-column j-center a-center"></div>
+        </div>
+        <div class="weather-data-container flex-column h-100vh">
+            <div class="weather-header flex-row h-25">
+                <div class="left-column w-50 h-100">
+                    <h1 class="flex-row a-center j-center h-100">Current</h1>
+                </div>
+                <div class="right-column flex-column a-left j-center j-space-around w-50 h-100">
+                    <h4>Temp: <span id="temp"></span></h4>
+                    <h4>Wind: <span id="wind"></span></h4>
+                    <h4>Humidity: <span id="humidity"></span></h4>
+                    <h4>UV Index: <span id="uv-index"></span></h4>
+                </div>
+            </div>
+            <div class="tile-container flex-row a-center j-center">
+                <div class="tile-row flex-row a-center j-center"></div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>
