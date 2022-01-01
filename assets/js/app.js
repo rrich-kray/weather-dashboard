@@ -1,6 +1,6 @@
 var searchedTerms = [];
 var searchBtn = document.querySelector(".search-btn");
-var Key = 'ce8ded9363f8838690bb46ae0314a5c5'
+var key = 'ce8ded9363f8838690bb46ae0314a5c5'
 
 var checkStorage = function(){
     if (!window.localStorage.getItem('searches')) {
@@ -8,17 +8,36 @@ var checkStorage = function(){
     }
 }
 
-var pullCityData = function(countryCode="US", apiKey='ce8ded9363f8838690bb46ae0314a5c5', days=5){
+var getBtnText = function() {
+    var btnText = document.querySelector('.result-btn').innerHTML;
+    console.log(btnText);
+    var city = btnText.split(',')[0].trim();
+    var state = btnText.split(',')[1].trim();
+    var key = 'ce8ded9363f8838690bb46ae0314a5c5';
+    pullCityData(city, state, key);
+}
 
+var getUserInput = function(){
     // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only
     var userInput = document.querySelector('.search').value;
-    var cityName = userInput.split(',')[0].trim().toLowerCase();
-    var stateCode =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
-    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
+    var city = userInput.split(',')[0].trim().toLowerCase();
+    var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
+    var key = 'ce8ded9363f8838690bb46ae0314a5c5'; 
+    saveUserInput(city, state);
+    pullCityData(city, state, key);
+}
 
+var saveUserInput = function(cityName, stateCode) {
     // Include search in local storage only if search does not already exist
-    if (!searchedTerms.includes(cityName)) {searchedTerms.push(cityName)}
+    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
+    if (!searchedTerms.includes(cityName)) {
+        var tempObj = {cityName: cityName, stateCode: stateCode}
+        searchedTerms.push(tempObj)
+    }
     window.localStorage.setItem('searches', JSON.stringify(searchedTerms))
+}
+
+var pullCityData = function(cityName, stateCode, apiKey){
 
     // Display searches on page
     displaySearches();
@@ -71,6 +90,7 @@ Date.prototype.addDays = function(days) {
 var displayWeatherForecast = function(weatherData){
     if (weatherData.length === 0) {document.querySelector('.tile-container').innerHTML = "No data found";}
     var tileContainer = document.querySelector('.tile-container');
+    tileContainer.innerHTML = '';
     var date = new Date()
     var counter = 1;
     weatherData.daily.forEach(function(day) {
@@ -105,14 +125,16 @@ var displaySearches = function(){
     document.querySelector('.search-results').innerHTML = '';
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
     searchedTerms.forEach(function(term){
-        var button = document.createElement('button')
-        button.innerHTML = term;
-        button.setAttribute("class", "result-btn flex-row j-center a-center");
-        document.querySelector('.search-results').appendChild(button)
+        var city = term['cityName']
+        var state = term['stateCode']
+        var html = `<button class="result-btn flex-row j-center a-center">${city}, ${state}</button>`
+        document.querySelector('.search-results').innerHTML += html
     })
 }
 
 checkStorage();
 window.onload = displaySearches();
 document.querySelector(".clear-results-btn").addEventListener('click', clearResults)
-searchBtn.addEventListener('click', pullCityData);
+document.querySelector('.result-btn').addEventListener('click', getBtnText)
+searchBtn.addEventListener('click', getUserInput);
+
