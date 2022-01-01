@@ -163,7 +163,7 @@ header {
 }
 
 .sidebar-container {
-    width: fit-content;
+    width: 25%;
     max-width: 30vw;
     height: 100%;
 }
@@ -188,13 +188,21 @@ header {
 }
 
 .result-btn, .clear-results-btn {
-    width: 95%;
     height: 40px;
     margin: 10px;
 }
 
-.weather-data-container {
+.result-btn {
+    width: 95%;
+    font-size: 20px;
+}
+
+.clear-results-btn {
     width: 100%;
+}
+
+.weather-data-container {
+    width: 75%;
     margin: 20px;
 }
 
@@ -209,18 +217,23 @@ header {
 
 .left-column h1 {
     font-style: italic;
+    background-color: rgba(16, 112, 202, 0.25);
 }
 
 .weather-tile {
-    height: fit-content;
-    width: fit-content;
-    background-color: rgba(14, 58, 177, 0.5);
+    background-color: rgba(30, 14, 177, 0.5);
+    width: 400px;
+    margin: 10px;
+    flex-basis: auto;
+    border-radius: 10%;
 }
 
-.weather-tile {
-    height: 500px;
-    width: 300px;
-    margin: 30px;
+.weather-tile p {
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 20px;
+    color: white;
+    height: 75px;
 }
 
 

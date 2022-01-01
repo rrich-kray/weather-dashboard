@@ -9,16 +9,20 @@ var checkStorage = function(){
 }
 
 var pullCityData = function(countryCode="US", apiKey='ce8ded9363f8838690bb46ae0314a5c5', days=5){
+
     // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only
     var userInput = document.querySelector('.search').value;
-    var cityName = userInput.split(',')[0].trim();
+    var cityName = userInput.split(',')[0].trim().toLowerCase();
     var stateCode =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
+
     // Include search in local storage only if search does not already exist
-    if (!searchedTerms.includes(cityName.toLowerCase())) {searchedTerms.push(cityName)}
+    if (!searchedTerms.includes(cityName)) {searchedTerms.push(cityName)}
     window.localStorage.setItem('searches', JSON.stringify(searchedTerms))
+
     // Display searches on page
     displaySearches();
+
     //Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
     // So, use user search to extract lat and lon values from separate api, then insert into the onecall api url
     var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
@@ -46,13 +50,13 @@ var pullCityData = function(countryCode="US", apiKey='ce8ded9363f8838690bb46ae03
     })
 }
 
-
+// Displays the current conditions in the .weather-data-container div; 
 var displayCurrentWeatherData = function(weatherData){
     if (weatherData.length === 0) {
         document.querySelector('.weather-data-container').textContent = "No data found";
         return;
     }
-    document.querySelector('#temp').innerHTML = weatherData.current.temp;
+    document.querySelector('#temp').innerHTML = weatherData.current.temp
     document.querySelector('#wind').innerHTML = weatherData.current.wind_speed;
     document.querySelector('#humidity').innerHTML = weatherData.current.humidity;
     document.querySelector('#uv-index').innerHTML = weatherData.current.uvi;
@@ -72,19 +76,20 @@ var displayWeatherForecast = function(weatherData){
     weatherData.daily.forEach(function(day) {
         console.log(day);
         var html = `
-            <div class="weather-tile flex-column a-center j-center">
+            <div class="weather-tile flex-column a-left j-center j-space-between">
+                <img class="weather-icon" />
                 <p>Date: <span id="date">${date.addDays(counter)}</span></p>
-                <p>Temperature: <span id="temp">${day.temp}</span></p>
+                <p>Temperature: <span id="temp">${day.temp.day}</span></p>
                 <p>Wind: <span id="wind">${day.wind_speed}</span></p>
                 <p>Humidity: <span id="humidity">${day.humidity}</span></p>
             </div>
         `;
-        // if (tileContainer[tileContainer.length-1].length === 5) {
+        // if (tileContainer.at(-1).length === 5) {
         //     var html = `<div class="tile-row flex-row a-center j-center"></div>`;
-        //     tileContainer.appendChild(html);
+        //     tileContainer.at(-1).innerHTML += html;
         //     return;
         // }
-        tileContainer.innerHTML += html;
+        tileContainer.innerHTML += html; // lastChild is read-only
         counter++
     })
 }
