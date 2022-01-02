@@ -134,9 +134,9 @@ var displaySearches = function(){
 }
 
 var colorUvIndex = function(element){
-    if (parseInt(element.innerHTML) <= 2) {element.style.backgroundColor = "green"}
-    if (parseInt(element.innerHTML) > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"}
-    if (parseInt(element.innerHTML) > 5) {element.style.backgroundColor = "red"}
+    if (element.innerHTML <= 2) {element.style.backgroundColor = "green"}
+    if (element.innerHTML > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"}
+    if (element.innerHTML > 5) {element.style.backgroundColor = "red"}
 }
 
 checkStorage();
