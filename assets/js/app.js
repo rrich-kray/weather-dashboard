@@ -78,6 +78,7 @@ var displayCurrentWeatherData = function(weatherData){
     document.querySelector('#wind').innerHTML = weatherData.current.wind_speed;
     document.querySelector('#humidity').innerHTML = weatherData.current.humidity;
     document.querySelector('#uv-index').innerHTML = weatherData.current.uvi;
+    colorUvIndex(document.querySelector('#uv-index'));
 }
 
 // credit to user "sparebytes" for the following function. Source link: https://stackoverflow.com/questions/563406/add-days-to-javascript-date
@@ -132,12 +133,19 @@ var displaySearches = function(){
     })
 }
 
+var colorUvIndex = function(element){
+    if (parseInt(element.innerHTML) <= 2) {element.style.backgroundColor = "green"}
+    if (parseInt(element.innerHTML) > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"}
+    if (parseInt(element.innerHTML) > 5) {element.style.backgroundColor = "red"}
+}
+
 checkStorage();
 window.onload = displaySearches();
 document.querySelector(".clear-results-btn").addEventListener('click', clearResults)
 searchBtn.addEventListener('click', getUserInput);
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('result-btn')) {getBtnText(event.target)}
-})
+});
+
 
 

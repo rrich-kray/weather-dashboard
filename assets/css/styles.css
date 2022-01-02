@@ -215,6 +215,10 @@ header {
     margin-left: 10px;
 }
 
+.right-column span {
+    margin: 10px;
+}
+
 .left-column h1 {
     font-style: italic;
     background-color: rgba(16, 112, 202, 0.25);
