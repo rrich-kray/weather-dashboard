@@ -8,9 +8,9 @@ var checkStorage = function(){
     }
 }
 
-var getBtnText = function() {
-    var btnText = document.querySelector('.result-btn').innerHTML;
-    console.log(btnText);
+// This function is called when the user clicks a past search. Takes the innerHTML of the button, splits it using a comma delimiter, trims the output, and passes the output as arguments to the pullCityData function, along with the api key
+var getBtnText = function(element) {
+    var btnText = element.innerHTML;
     var city = btnText.split(',')[0].trim();
     var state = btnText.split(',')[1].trim();
     var key = 'ce8ded9363f8838690bb46ae0314a5c5';
@@ -18,7 +18,7 @@ var getBtnText = function() {
 }
 
 var getUserInput = function(){
-    // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only
+    // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only, and add "US-" so that it adheres to ISO-3166 standards
     var userInput = document.querySelector('.search').value;
     var city = userInput.split(',')[0].trim().toLowerCase();
     var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
@@ -43,17 +43,16 @@ var pullCityData = function(cityName, stateCode, apiKey){
     displaySearches();
 
     //Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
-    // So, use user search to extract lat and lon values from separate api, then insert into the onecall api url
+    // So, this takes the user's search and uses it to extract lat and lon values from separate api, then inserts into the onecall api url
     var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
     fetch(api).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data);
                 var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&appid=${apiKey}`
                 fetch(oneCallApi).then(function(response) {
                     if (response.ok) {
                         response.json().then(function(data) {
-                            console.log(data);
+                            // take data and pass it as arguments to the following functions
                             displayCurrentWeatherData(data);
                             displayWeatherForecast(data);
                         })
@@ -65,7 +64,7 @@ var pullCityData = function(cityName, stateCode, apiKey){
         }
     })
     .catch(function(){
-        alert("No data found");
+        alert("No data found!");
     })
 }
 
@@ -81,6 +80,8 @@ var displayCurrentWeatherData = function(weatherData){
     document.querySelector('#uv-index').innerHTML = weatherData.current.uvi;
 }
 
+// credit to user "sparebytes" for the following function. Source link: https://stackoverflow.com/questions/563406/add-days-to-javascript-date
+// I couldn't find a date value in the data pulled from the API, so this function allows me to add however many days to a Date object
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
@@ -88,13 +89,14 @@ Date.prototype.addDays = function(days) {
 }
 
 var displayWeatherForecast = function(weatherData){
-    if (weatherData.length === 0) {document.querySelector('.tile-container').innerHTML = "No data found";}
+    // check if data was pulled 
+    if (weatherData.length === 0) {document.querySelector('.tile-container').innerHTML = "No data found"}
     var tileContainer = document.querySelector('.tile-container');
+    //clear tileContainer innerHTML so that weather tiles do not pile up
     tileContainer.innerHTML = '';
     var date = new Date()
     var counter = 1;
     weatherData.daily.forEach(function(day) {
-        console.log(day);
         var html = `
             <div class="weather-tile flex-column a-left j-center j-space-between">
                 <img class="weather-icon" />
@@ -104,16 +106,13 @@ var displayWeatherForecast = function(weatherData){
                 <p>Humidity: <span id="humidity">${day.humidity}</span></p>
             </div>
         `;
-        // if (tileContainer.at(-1).length === 5) {
-        //     var html = `<div class="tile-row flex-row a-center j-center"></div>`;
-        //     tileContainer.at(-1).innerHTML += html;
-        //     return;
-        // }
-        tileContainer.innerHTML += html; // lastChild is read-only
+        tileContainer.innerHTML += html;
         counter++
     })
 }
 
+// Clears past searches by pulling search history from local storage and setting array value to empty. 
+//displaySearches() function is then evoked, which also clears the innerHTML of the search area to align it with what's in local storage 
 var clearResults = function() {
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
     searchedTerms = [];
@@ -121,9 +120,10 @@ var clearResults = function() {
     displaySearches();
 }
 
+// pulls search history from local storage and creates button for each term pulled
 var displaySearches = function(){
     document.querySelector('.search-results').innerHTML = '';
-    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
+    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
     searchedTerms.forEach(function(term){
         var city = term['cityName']
         var state = term['stateCode']
@@ -135,6 +135,9 @@ var displaySearches = function(){
 checkStorage();
 window.onload = displaySearches();
 document.querySelector(".clear-results-btn").addEventListener('click', clearResults)
-document.querySelector('.result-btn').addEventListener('click', getBtnText)
 searchBtn.addEventListener('click', getUserInput);
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('result-btn')) {getBtnText(event.target)}
+})
+
 
