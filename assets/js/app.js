@@ -20,6 +20,9 @@ var getBtnText = function(element) {
 var getUserInput = function(){
     // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only, and add "US-" so that it adheres to ISO-3166 standards
     var userInput = document.querySelector('.search').value;
+    if (userInput.split(',').length < 2) {
+        alert("Please enter the city name and two-letter state code");
+    }
     var city = userInput.split(',')[0].trim().toLowerCase();
     var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
     var key = 'ce8ded9363f8838690bb46ae0314a5c5'; 
