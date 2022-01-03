@@ -10,44 +10,43 @@ var checkStorage = function(){
 
 // This function is called when the user clicks a past search. Takes the innerHTML of the button, splits it using a comma delimiter, trims the output, and passes the output as arguments to the pullCityData function, along with the api key
 var getBtnText = function(element) {
-    var btnText = element.innerHTML;
-    var city = btnText.split(',')[0].trim();
-    var state = btnText.split(',')[1].trim();
+    var city = element.innerHTML;
+    // var city = btnText.split(',')[0].trim();
+    // var state = btnText.split(',')[1].trim();
     var key = 'ce8ded9363f8838690bb46ae0314a5c5';
-    pullCityData(city, state, key);
+    pullCityData(city, key);
 }
 
 var getUserInput = function(){
     // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only, and add "US-" so that it adheres to ISO-3166 standards
-    var userInput = document.querySelector('.search').value;
-    var city = userInput.split(',')[0].trim().toLowerCase();
-    var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
+    var city = document.querySelector('.search').value;
+    // var city = userInput.split(',')[0].trim().toLowerCase();
+    // var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
     var key = 'ce8ded9363f8838690bb46ae0314a5c5'; 
-    saveUserInput(city, state);
-    pullCityData(city, state, key);
+    saveUserInput(city);
+    pullCityData(city, key);
 }
 
-var saveUserInput = function(cityName, stateCode) {
+var saveUserInput = function(cityName) {
     // Include search in local storage only if search does not already exist
-    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
-    if (!searchedTerms.includes(cityName)) {
-        var tempObj = {cityName: cityName, stateCode: stateCode}
-        searchedTerms.push(tempObj)
-    }
-    window.localStorage.setItem('searches', JSON.stringify(searchedTerms))
+    var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
+    if (!searchedTerms.includes(cityName)) {searchedTerms.push(cityName)};
+    window.localStorage.setItem('searches', JSON.stringify(searchedTerms));
 }
 
-var pullCityData = function(cityName, stateCode, apiKey){
+var pullCityData = function(cityName, apiKey){
 
     // Display searches on page
     displaySearches();
 
     //Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
     // So, this takes the user's search and uses it to extract lat and lon values from separate api, then inserts into the onecall api url
-    var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
+    var api = `api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`;
+    console.log(api);
     fetch(api).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
+                console.log(data)
                 var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&appid=${apiKey}`
                 fetch(oneCallApi).then(function(response) {
                     if (response.ok) {
@@ -126,9 +125,7 @@ var displaySearches = function(){
     document.querySelector('.search-results').innerHTML = '';
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
     searchedTerms.forEach(function(term){
-        var city = term['cityName']
-        var state = term['stateCode']
-        var html = `<button class="result-btn flex-row j-center a-center">${city}, ${state}</button>`
+        var html = `<button class="result-btn flex-row j-center a-center">${term}</button>`
         document.querySelector('.search-results').innerHTML += html
     })
 }
