@@ -137,7 +137,6 @@ var displaySearches = function(){
 }
 
 var colorUvIndex = function(element){
-    console.log(element.innerHTML)
     if (element.innerHTML <= 2) {element.style.backgroundColor = "green"}
     if (element.innerHTML > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"}
     if (element.innerHTML > 5) {element.style.backgroundColor = "red"}
