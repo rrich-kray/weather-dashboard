@@ -22,6 +22,7 @@ var getUserInput = function(){
     var userInput = document.querySelector('.search').value;
     if (userInput.split(',').length < 2) {
         alert("Please enter the city name and two-letter state code");
+        return;
     }
     var city = userInput.split(',')[0].trim().toLowerCase();
     var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
