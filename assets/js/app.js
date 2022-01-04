@@ -1,5 +1,6 @@
 var searchedTerms = [];
 var searchBtn = document.querySelector(".search-btn");
+var clearResultsBtn = document.querySelector('.clear-results-btn')
 var key = 'ce8ded9363f8838690bb46ae0314a5c5'
 
 var checkStorage = function(){
@@ -10,23 +11,21 @@ var checkStorage = function(){
 
 // This function is called when the user clicks a past search. Takes the innerHTML of the button, splits it using a comma delimiter, trims the output, and passes the output as arguments to the pullCityData function, along with the api key
 var getBtnText = function(element) {
-    var btnText = element.innerHTML;
-    var city = btnText.split(',')[0].trim();
-    var state = btnText.split(',')[1].trim();
-    var key = 'ce8ded9363f8838690bb46ae0314a5c5';
+    var btnTerms = element.innerHTML.split(',');
+    const [ city, state ] = btnTerms;
     pullCityData(city, state, key);
 }
 
 var getUserInput = function(){
     // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only, and add "US-" so that it adheres to ISO-3166 standards
-    var userInput = document.querySelector('.search').value;
-    if (userInput.split(',').length < 2) {
+    var userInput = document.querySelector('.search').value.split(',');
+    if ((userInput.length < 2 || userInput[1].trim().length > 2)) {
         alert("Please enter the city name and two-letter state code");
         return;
     }
-    var city = userInput.split(',')[0].trim().toLowerCase();
-    var state =  `US-${userInput.split(',')[1].trim().toUpperCase()}`;
-    var key = 'ce8ded9363f8838690bb46ae0314a5c5'; 
+    var [ city, state ] = userInput;
+    city = city.trim()
+    state = `US-${state.trim().toUpperCase()}`
     saveUserInput(city, state);
     pullCityData(city, state, key);
 }
@@ -34,25 +33,25 @@ var getUserInput = function(){
 var saveUserInput = function(cityName, stateCode) {
     // Include search in local storage only if search does not already exist
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'))
-    if (!searchedTerms.includes(cityName)) {
-        var tempObj = {cityName: cityName, stateCode: stateCode}
-        searchedTerms.push(tempObj)
+    console.log(searchedTerms);
+    if (!searchedTerms.includes([cityName, stateCode])) {
+        searchedTerms.push([cityName, stateCode])
     }
     window.localStorage.setItem('searches', JSON.stringify(searchedTerms))
 }
 
-var pullCityData = function(cityName, stateCode, apiKey){
+var pullCityData = function(cityName, stateCode, apiKey, units="standard") {
 
     // Display searches on page
     displaySearches();
 
-    //Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
+    // Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
     // So, this takes the user's search and uses it to extract lat and lon values from separate api, then inserts into the onecall api url
     var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
     fetch(api).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&appid=${apiKey}`
+                var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`
                 fetch(oneCallApi).then(function(response) {
                     if (response.ok) {
                         response.json().then(function(data) {
@@ -74,11 +73,7 @@ var pullCityData = function(cityName, stateCode, apiKey){
 
 // Displays the current conditions in the .weather-data-container div; 
 var displayCurrentWeatherData = function(weatherData){
-    if (weatherData.length === 0) {
-        document.querySelector('.weather-data-container').textContent = "No data found";
-        return;
-    }
-    document.querySelector('#temp').innerHTML = weatherData.current.temp
+    document.querySelector('#temp').innerHTML = `${weatherData.current.temp} ℉`
     document.querySelector('#wind').innerHTML = weatherData.current.wind_speed;
     document.querySelector('#humidity').innerHTML = weatherData.current.humidity;
     document.querySelector('#uv-index').innerHTML = weatherData.current.uvi;
@@ -106,13 +101,13 @@ var displayWeatherForecast = function(weatherData){
             <div class="weather-tile flex-column a-left j-center j-space-between">
                 <img class="weather-icon" />
                 <p>Date: <span id="date">${date.addDays(counter)}</span></p>
-                <p>Temperature: <span id="temp">${day.temp.day}</span></p>
-                <p>Wind: <span id="wind">${day.wind_speed}</span></p>
+                <p>Temperature: <span id="temp">${day.temp.day} ℉</span></p>
+                <p>Wind: <span id="wind">${day.wind_speed} mph</span></p>
                 <p>Humidity: <span id="humidity">${day.humidity}</span></p>
             </div>
         `;
         tileContainer.innerHTML += html;
-        counter++
+        counter++;
     })
 }
 
@@ -130,22 +125,21 @@ var displaySearches = function(){
     document.querySelector('.search-results').innerHTML = '';
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
     searchedTerms.forEach(function(term){
-        var city = term['cityName']
-        var state = term['stateCode']
+        const [ city, state ] = term;
         var html = `<button class="result-btn flex-row j-center a-center">${city}, ${state}</button>`
         document.querySelector('.search-results').innerHTML += html
     })
 }
 
 var colorUvIndex = function(element){
-    if (element.innerHTML <= 2) {element.style.backgroundColor = "green"}
-    if (element.innerHTML > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"}
-    if (element.innerHTML > 5) {element.style.backgroundColor = "red"}
+    if (element.innerHTML <= 2) {element.style.backgroundColor = "green"};
+    if (element.innerHTML > 2 && parseInt(element.innerHTML) <= 5) {element.style.backgroundColor = "yellow"};
+    if (element.innerHTML > 5) {element.style.backgroundColor = "red"};
 }
 
 checkStorage();
 window.onload = displaySearches();
-document.querySelector(".clear-results-btn").addEventListener('click', clearResults);
+clearResultsBtn.addEventListener('click', clearResults);
 searchBtn.addEventListener('click', getUserInput);
 document.addEventListener('click', function(event) {
     if (event.target.classList.contains('result-btn')) {getBtnText(event.target)}
