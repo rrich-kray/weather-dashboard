@@ -125,7 +125,8 @@ var displaySearches = function(){
     document.querySelector('.search-results').innerHTML = '';
     var searchedTerms = JSON.parse(window.localStorage.getItem('searches'));
     searchedTerms.forEach(function(term){
-        const [ city, state ] = term;
+        var city = term[0];
+        var state = term[1];
         var html = `<button class="result-btn flex-row j-center a-center">${city}, ${state}</button>`
         document.querySelector('.search-results').innerHTML += html
     })
