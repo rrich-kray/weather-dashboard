@@ -48,17 +48,11 @@ var pullCityData = function(cityName, stateCode, apiKey, units="standard") {
     // Insert user input into weather api. Open Weather Api has convenient "Onecall" api with current and forecast data but, oddly, only accepts lat and lon values.
     // So, this takes the user's search and uses it to extract lat and lon values from separate api, then inserts into the onecall api url
     var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
-    fetch(api).then(function(response) {
-        if (response.ok) {
-            response.json().then(function(data) {
+    fetch(api).then(response => {if (response.ok) {response.json().then(data => {
                 var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`
-                fetch(oneCallApi).then(function(response) {
-                    if (response.ok) {
-                        response.json().then(function(data) {
-                            // take data and pass it as arguments to the following functions
+                fetch(oneCallApi).then(response => {if (response.ok) {response.json().then(data => {
                             displayCurrentWeatherData(data);
-                            displayWeatherForecast(data);
-                        })
+                            displayWeatherForecast(data);})
                     }
                 })
             })
