@@ -98,7 +98,7 @@ var displayWeatherForecast = function(weatherData){
     var counter = 1;
     weatherData.daily.forEach(function(day) {
         var html = `
-            <div class="weather-tile flex-column a-left j-center j-space-between">
+            <div class="weather-tile grid-row-start flex-column a-left j-center j-space-between">
                 <img class="weather-icon" />
                 <p>Date: <span id="date">${date.addDays(counter)}</span></p>
                 <p>Temperature: <span id="temp">${day.temp.day} ℉</span></p>
