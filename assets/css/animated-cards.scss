@@ -1,0 +1,101 @@
+:root {
+    --clr-dark: rgb(13, 17, 19);
+    --clr-light: #fff;
+    --clr-accent: rgb(222, 52, 0);
+    --clr-accent-dark: rgb(163, 38, 0);
+    --clr-secondary: rgb(0, 62, 163);
+    --br: .5rem;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin: 0;
+}
+
+.tile {
+    position: relative;
+    width: 12.5em;
+}
+
+.streamers {
+    display: flex;
+
+    img {
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        border-radius: var(--br);
+    }
+}
+
+.changing-container {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    opacity: 0;
+}
+
+.front {
+
+    transition: 250ms;
+
+    .thumbnail {
+        border-radius: var(--br);
+    }
+
+    .name {
+        text-align: center; // Centers the ""Game Name" text located below the picture
+        margin: .75em 0; // Gives the "Game Name" text a top and bottom margin of 0.75em, and 0 on left and right
+    }
+
+}
+
+.back { 
+    display: none
+}
+
+.background {
+    background: #234;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    transform: scale(.2, .9);
+    opacity: 0;
+}
+
+.tile:hover {
+
+    .front {
+        transform: translateY(-30%);
+    }
+
+    .background {
+        opacity: 1;
+        transform: scale(2, 1);
+        transition: 250ms;
+    }
+
+    .changing-container {
+        opacity: 1;
+        margin-top: 40px;
+
+        p {
+            margin: 20px; 
+            font-size: 20px;
+            color: #fff;
+            // text-align: center;
+        }
+
+        span {
+        }
+    }
+}
+
+img {
+    max-width: 100%
+}
+

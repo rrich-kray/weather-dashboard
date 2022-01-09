@@ -1,0 +1,86 @@
+:root {
+  --clr-dark: rgb(13, 17, 19);
+  --clr-light: #fff;
+  --clr-accent: rgb(222, 52, 0);
+  --clr-accent-dark: rgb(163, 38, 0);
+  --clr-secondary: rgb(0, 62, 163);
+  --br: .5rem;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.tile {
+  position: relative;
+  width: 12.5em;
+}
+
+.streamers {
+  display: flex;
+}
+.streamers img {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  border-radius: var(--br);
+}
+
+.changing-container {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  opacity: 0;
+}
+
+.front {
+  transition: 250ms;
+}
+.front .thumbnail {
+  border-radius: var(--br);
+}
+.front .name {
+  text-align: center;
+  margin: 0.75em 0;
+}
+
+.back {
+  display: none;
+}
+
+.background {
+  background: #234;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  transform: scale(0.2, 0.9);
+  opacity: 0;
+}
+
+.tile:hover .front {
+  transform: translateY(-30%);
+}
+.tile:hover .background {
+  opacity: 1;
+  transform: scale(2, 1);
+  transition: 250ms;
+}
+.tile:hover .changing-container {
+  opacity: 1;
+  margin-top: 40px;
+}
+.tile:hover .changing-container p {
+  margin: 20px;
+  font-size: 20px;
+  color: #fff;
+}
+img {
+  max-width: 100%;
+}
+
+/*# sourceMappingURL=animated-cards.css.map */
