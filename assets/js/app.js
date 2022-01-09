@@ -40,7 +40,7 @@ var saveUserInput = function(cityName, stateCode) {
     window.localStorage.setItem('searches', JSON.stringify(searchedTerms))
 }
 
-var pullCityData = function(cityName, stateCode, apiKey, units="standard") {
+var pullCityData = function(cityName, stateCode, apiKey) {
 
     // Display searches on page
     displaySearches();
@@ -49,12 +49,10 @@ var pullCityData = function(cityName, stateCode, apiKey, units="standard") {
     // So, this takes the user's search and uses it to extract lat and lon values from separate api, then inserts into the onecall api url
     var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`
     fetch(api).then(response => {if (response.ok) {response.json().then(data => {
-                var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`
-                fetch(oneCallApi).then(response => {if (response.ok) {response.json().then(data => {
-                            displayCurrentWeatherData(data);
-                            displayWeatherForecast(data);})
-                    }
-                })
+        var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`
+        fetch(oneCallApi).then(response => {if (response.ok) {response.json().then(data => {
+            displayCurrentWeatherData(data);
+            displayWeatherForecast(data)})}})
             })
         } else {
             alert(`Error ${response.statusText}`)
@@ -68,10 +66,9 @@ var pullCityData = function(cityName, stateCode, apiKey, units="standard") {
 // Displays the current conditions in the .weather-data-container div; 
 var displayCurrentWeatherData = function(weatherData){
     document.querySelector('#temp').innerHTML = `${weatherData.current.temp} ℉`
-    document.querySelector('#wind').innerHTML = weatherData.current.wind_speed;
-    document.querySelector('#humidity').innerHTML = weatherData.current.humidity;
-    document.querySelector('#uv-index').innerHTML = weatherData.current.uvi;
-    colorUvIndex(document.querySelector('#uv-index'));
+    document.querySelector('#wind').innerHTML = `${weatherData.current.wind_speed} mph`;
+    document.querySelector('#humidity').innerHTML = `${weatherData.current.humidity} g.kg^-1`;
+    document.querySelector('#uv-index').innerHTML = `${weatherData.current.uvi} %rh`;
 }
 
 // credit to user "sparebytes" for the following function. Source link: https://stackoverflow.com/questions/563406/add-days-to-javascript-date
@@ -89,19 +86,20 @@ var displayWeatherForecast = function(weatherData){
     //clear tileContainer innerHTML so that weather tiles do not pile up
     tileContainer.innerHTML = '';
     var date = new Date()
-    var counter = 1;
+    var counter1 = 1;
+    var counter2 = 1;
     weatherData.daily.forEach(function(day) {
         var html = `
-            <div class="weather-tile grid-row-start flex-column a-left j-center j-space-between">
+            <div class="weather-tile tile${counter2} flex-column a-left j-center j-space-between">
                 <img class="weather-icon" />
-                <p>Date: <span id="date">${date.addDays(counter)}</span></p>
+                <p>Date: <span id="date">${date.addDays(counter1)}</span></p>
                 <p>Temperature: <span id="temp">${day.temp.day} ℉</span></p>
                 <p>Wind: <span id="wind">${day.wind_speed} mph</span></p>
-                <p>Humidity: <span id="humidity">${day.humidity}</span></p>
-            </div>
-        `;
+                <p>Humidity: <span id="humidity">${day.humidity} %rh</span></p>
+            </div>`;
         tileContainer.innerHTML += html;
-        counter++;
+        counter1++;
+        counter2++;
     })
 }
 

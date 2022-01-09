@@ -9,36 +9,36 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <header class="flex-row a-center j-center w-100">
+
+    <header class="flex-column a-center j-center w-100">
         <h1>Weather Dashboard</h1>
+        <div class="search-container flex-row w-50">
+            <div class="city-search flex-row j-center a-center">
+                <input type="text" value="Please enter the name of a city and its two letter state abbreviation" class="search">
+                <div class="button-container flex-row">
+                    <button class="search-btn">Search</button>
+                    <button class="clear-results-btn">Clear Searches</button>
+                </div>
+            </div>
+        </div>
+        <div class="search-results flex-row j-center a-center"></div>
+        <div class="current-container flex-row j-center a-center">
+            <h5>Current:</h5>
+            <p>Temperature: <span id="temp"></span></p>
+            <p>Wind: <span id="wind"></span></p>
+            <p>Humidity: <span id="humidity"></span></p>
+            <p>UVI: <span id="uv-index"></span></p>
+        </div>
     </header>
-    <div class="main-container flex-row h-100">
-        <div class="sidebar-container flex-column">
-            <div class="city-search flex-column j-center a-center">
-                <h2>Search for a City:</h2>
-                <input type="text" class="search flex-row">
-                <button class="search-btn">Search</button>
-                <button class="clear-results-btn">Clear Searches</button>
-            </div>
-            <div class="search-results flex-column j-center a-center"></div>
+
+    <div class="main-container w-100">
+
+        <div class="tile-container flex-column h-50 w-100">
+
         </div>
-        <div class="weather-data-container flex-column h-100vh">
-            <div class="weather-header flex-row h-25">
-                <div class="left-column w-50 h-100">
-                    <h1 class="flex-row a-center j-center h-100">Current</h1>
-                </div>
-                <div class="right-column flex-column a-left j-center j-space-around w-50 h-100">
-                    <h4>Temp: <span id="temp"></span></h4>
-                    <h4>Wind: <span id="wind"></span></h4>
-                    <h4>Humidity: <span id="humidity"></span></h4>
-                    <h4 class="w-25">UV Index: <span id="uv-index"></span></h4>
-                </div>
-            </div>
-            <div class="tile-container flex-row a-center j-center">
-                <div class="tile-row"></div>
-            </div>
-        </div>
+
     </div>
+    
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->

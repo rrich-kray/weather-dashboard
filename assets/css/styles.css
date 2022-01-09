@@ -162,12 +162,16 @@ h5 {
     grid-row-start: auto;
 }
 
+body {
+    max-height: 100vh;
+}
+
 header {
     width: 100%;
-    height: 10vh;
-    background: #83a4d4;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 35vh;
+    background: #83a4d4; 
+    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);
+    background: linear-gradient(to right, #b6fbff, #83a4d4); 
 }
 
 header h1 {
@@ -175,38 +179,70 @@ header h1 {
     padding: 2rem;
 }
 
+.main-container {
+    width: 100%;
+    max-height: 100%;
+}
+
 .sidebar-container {
-    width: 25%;
-    max-width: 30vw;
-    height: 100%;
+    width: 100%;
+    max-height: 50%;
+}
+
+.search-container {
+    display: flex;
+    width: 100%;
+    max-height: 100%;
+}
+
+.search-container h2 {
+    width: 100%;
+    margin: auto;
+}
+
+.weather-header {
+    width: 75%;
 }
 
 .city-search {
-    margin: 20px;
-    border-bottom: 1px solid black;
+    margin: auto;
+    width: 50%;
 }
 
 .search {
     width: 100%;
     height: 50px;
     margin: 30px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    border-bottom: solid black 1px;
 }
 
-.search-btn {
+.search:focus {
+    outline: none;
+}
+
+.search-btn, .clear-results-btn {
     margin: 10px;
-    width: 100%;
-    height: 50px;
+    height: 75px;
     font-size: 20px;
     font-weight: bold;
+    border-radius: 10%;
+    background: transparent;
+    border: none;
 }
 
-.result-btn, .clear-results-btn {
-    height: 40px;
-    margin: 10px;
+.search-btn:hover, .clear-results-btn:hover {
+    cursor: pointer;
 }
 
 .result-btn {
-    width: 95%;
+    height: 100px;
+    border-radius: 20%;
+    margin: 10px;
+    padding: 15px;
+    background-color: transparent;
     font-size: 20px;
 }
 
@@ -243,6 +279,7 @@ header h1 {
     margin: 10px;
     flex-basis: auto;
     border-radius: 10%;
+    resize: both;
 }
 
 .weather-tile p {
@@ -255,4 +292,36 @@ header h1 {
 
 #uv-index {
     border-radius: 10%;
+}
+
+.tile-container {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-columns: repeat(6, auto);
+    grid-gap: 20px;
+}
+
+.main-container {
+    grid-column-start: 1;
+    grid-column-end: 5
+}
+
+.current-container {
+    margin: 30px;
+}
+
+.current-container p {
+    margin: 30px;
+    font-size: 30px;
+}
+
+.current-container h5 {
+    margin-right: 40px;
+}
+
+input {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.25)
 }
