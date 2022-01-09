@@ -51,6 +51,7 @@ var pullCityData = function(cityName, stateCode, apiKey) {
     fetch(api).then(response => {if (response.ok) {response.json().then(data => {
         var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`
         fetch(oneCallApi).then(response => {if (response.ok) {response.json().then(data => {
+            console.log(data)
             displayCurrentWeatherData(data);
             displayWeatherForecast(data)})}})
             })
@@ -75,7 +76,7 @@ var displayCurrentWeatherData = function(weatherData){
 // I couldn't find a date value in the data pulled from the API, so this function allows me to add however many days to a Date object
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
-    date.setDate(date.getDate() + days);
+    date.setDate(date.getDay() + days);
     return date;
 }
 
@@ -85,21 +86,48 @@ var displayWeatherForecast = function(weatherData){
     var tileContainer = document.querySelector('.tile-container');
     //clear tileContainer innerHTML so that weather tiles do not pile up
     tileContainer.innerHTML = '';
-    var date = new Date()
     var counter1 = 1;
-    var counter2 = 1;
+    // var counter2 = 1;
     weatherData.daily.forEach(function(day) {
+        var thumbnail;
+        if (day.weather[0]['main'].toLowerCase() === 'rain') {thumbnail = './assets/images/storm-day.svg'};
+        if (day.weather[0]['main'].toLowerCase() === 'clouds') {thumbnail = './assets/images/cloudy-day.svg'};
+        if (day.weather[0]['main'].toLowerCase() === 'snow') {thumbnail = './assets/images/snow.svg'};
+        if (day.weather[0]['main'].toLowerCase() === 'clear') {thumbnail = './assets/images/sunny-day.svg'};
         var html = `
-            <div class="weather-tile tile${counter2} flex-column a-left j-center j-space-between">
-                <img class="weather-icon" />
-                <p>Date: <span id="date">${date.addDays(counter1)}</span></p>
-                <p>Temperature: <span id="temp">${day.temp.day} ℉</span></p>
-                <p>Wind: <span id="wind">${day.wind_speed} mph</span></p>
-                <p>Humidity: <span id="humidity">${day.humidity} %rh</span></p>
-            </div>`;
+        
+        <div class="tile">
+        
+            <div class="front">
+                <img class="thumbnail" src=${thumbnail} alt="">
+                <h5 class="date">${moment(moment(), "MM-DD-YYYY").add(counter1, 'days')}</h5> <!--date can go here-->
+                <div class="changing-container">
+                    <p>Temp: <span class="temp">${day.temp.day} ℉</span></p>
+                    <p>Wind: <span class="wind">${day.wind_speed} mph</span></p>
+                    <p>Humidity: <span class="humidity">${day.humidity} %rh</span></p>
+                    <p>UVI: <span class="UVI">${day.uvi} g.kg^-1</span></p>
+                </div>
+            </div>
+
+            <div class="background"></div>
+
+        </div>
+            
+            `
+
+        // `
+        //     <div class="weather-tile tile${counter2} flex-column a-left j-center j-space-between">
+        //         <img class="weather-icon" />
+        //         <p>Date: <span id="date">${date.addDays(counter1)}</span></p>
+        //         <p>Temperature: <span id="temp">${day.temp.day} ℉</span></p>
+        //         <p>Wind: <span id="wind">${day.wind_speed} mph</span></p>
+        //         <p>Humidity: <span id="humidity">${day.humidity} %rh</span></p>
+        //     </div>`
+        //     ;
+            
         tileContainer.innerHTML += html;
         counter1++;
-        counter2++;
+        // counter2++;
     })
 }
 
