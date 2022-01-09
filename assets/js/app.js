@@ -72,14 +72,6 @@ var displayCurrentWeatherData = function(weatherData){
     document.querySelector('#uv-index').innerHTML = `${weatherData.current.uvi} %rh`;
 }
 
-// credit to user "sparebytes" for the following function. Source link: https://stackoverflow.com/questions/563406/add-days-to-javascript-date
-// I couldn't find a date value in the data pulled from the API, so this function allows me to add however many days to a Date object
-Date.prototype.addDays = function(days) {
-    var date = new Date(this.valueOf());
-    date.setDate(date.getDay() + days);
-    return date;
-}
-
 var displayWeatherForecast = function(weatherData){
     // check if data was pulled 
     if (weatherData.length === 0) {document.querySelector('.tile-container').innerHTML = "No data found"}
