@@ -8,7 +8,7 @@ This repository contains the HTML, CSS and Javascript code for the Weather Dashb
 [features](#features)  
 [how it works](#how-it-works)
 [installation](#installation)  
-[contact](#contact)
+[contact](#contact)  
 [license](#license)
 
 ## Description
