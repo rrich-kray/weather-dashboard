@@ -1,6 +1,6 @@
 # Weather Dashboard
 
-This repository contains the HTML, CSS and Javascript code for the Weather Dashboard Project.
+This repository contains the HTML, CSS and JavaScript code for the Weather Dashboard Project.
 
 ## Table of Contents
 
