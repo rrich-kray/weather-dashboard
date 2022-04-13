@@ -21,7 +21,6 @@ p {
 
 .streamers {
     display: flex;
-
     img {
         width: 2em;
         height: 2em;
@@ -37,21 +36,17 @@ p {
 }
 
 .front {
-
     transition: 250ms;
-
     .thumbnail {
         border-radius: var(--br);
     }
-
     .name {
         text-align: center; // Centers the ""Game Name" text located below the picture
         margin: .75em 0; // Gives the "Game Name" text a top and bottom margin of 0.75em, and 0 on left and right
     }
-
 }
 
-.back { 
+.back {
     display: none
 }
 
@@ -68,29 +63,22 @@ p {
 }
 
 .tile:hover {
-
     .front {
         transform: translateY(-30%);
     }
-
     .background {
         opacity: 1;
         transform: scale(2, 1);
         transition: 250ms;
     }
-
     .changing-container {
         opacity: 1;
         margin-top: 40px;
-
         p {
-            margin: 20px; 
+            margin: 20px;
             font-size: 20px;
             color: #fff;
             // text-align: center;
-        }
-
-        span {
         }
     }
 }
@@ -98,4 +86,3 @@ p {
 img {
     max-width: 100%
 }
-
