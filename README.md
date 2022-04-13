@@ -39,11 +39,6 @@ When a user submits a search, an event listener fires that calls a series of fun
 - User input is then integrated into an Open Weather Map url that is used to fetch data from the API.
 - This data is then displayed in tile format.
 
-The application's search box and search results resemble the following, respectively:
-
-![Search Box Screenshot](./assets/images/screen2.png)
-![Search Results Screenshot](./assets/images/screen3.png)
-
 In addition, UV index data is conditionally formatted based on its severity. Users also have the option to clear search history by selecting the "clear" button adjacent to the "search" button.
 
 ## Installation
