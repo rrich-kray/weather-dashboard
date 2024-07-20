@@ -193,11 +193,6 @@ header h1 {
     height: 400px;
 }
 
-.main-container {
-    width: 100%;
-    flex-grow: 1;
-}
-
 .sidebar-container {
     width: 100%;
     max-height: 50%;
@@ -206,7 +201,6 @@ header h1 {
 .search-container {
     display: flex;
     width: 100%;
-    max-height: 100%;
 }
 
 .search-container h2 {
@@ -324,14 +318,16 @@ header h1 {
 }
 
 .main-container {
+    flex-grow: 1;
     grid-column-start: 1;
-    grid-column-end: 5
+    grid-column-end: 5;
+    width: 100%;
+    flex-grow: 1;
 }
 
 .current-container {
     margin: 30px;
     background-color: rgba(238, 235, 235, 0.5);
-    border-radius: 10%;
     padding-left: 10px;
 }
 

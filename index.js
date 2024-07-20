@@ -23,35 +23,12 @@ class WeatherApp
     pullCityData(city, state, key);
   };
 
-  getUserInputAndPullCityData()
-  {
-    const city = this.SearchBarElement.value;
-    // this.UtilsObject.saveUserInput(city, this.ApiKey, 7); // update to allow user ot choose forecast range
-    this.pullCityData(city, 7, this.ApiKey);
-  }
-
-  getUserInput()
-  { // CHANGE THIS TO BE MORE ACCEPTING OF USER INPUT
-    // Capture user input and split it by city name and state name; trim spaces and convert stateCode to uppercase only, and add "US-" so that it adheres to ISO-3166 standards
-    const userInput = this.SearchBarElement.value;
-    /*
-    if (!this.UtilsObject.validateUserInput(userInput))
-    {
-      alert("Please enter the city name and two-letter state code");
-      return;
-    }
-    */
-    var [city, state] = userInput;
-    city = city.trim();
-    state = `US-${state.trim().toUpperCase()}`;
-    return new Array(city, state);
-  };
-
-  pullCityData (cityName, forecaseRangeinDays, apiKey) 
+  pullCityData (forecaseRangeinDays, apiKey) 
   {
     // Display searches on page
     this.DisplayObject.displaySearches();
-    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${forecaseRangeinDays}&aqi=no&alerts=no`;
+    const city = this.SearchBarElement.value;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=${forecaseRangeinDays}&aqi=no&alerts=no`;
     axios
     .get(apiUrl)
     .then(response => {
@@ -137,19 +114,6 @@ class Display
       document.querySelector(".search-results").innerHTML += html;
     });
   };
-  
-  colorUvIndex (element) 
-  {
-    if (element.innerHTML <= 2) {
-      element.style.backgroundColor = "green";
-    }
-    if (element.innerHTML > 2 && element.innerHTML <= 5) {
-      element.style.backgroundColor = "yellow";
-    }
-    if (element.innerHTML > 5) {
-      element.style.backgroundColor = "red";
-    }
-  };
 }
 
 class Utils 
@@ -185,15 +149,6 @@ class Utils
     window.localStorage.setItem("searches", JSON.stringify(this.searchedTerms));
     displaySearches();
   };
-
-  validateUserInput(userInput) // Rmeove this; have seperate input boxes for city and state. State can be dropdown
-  {
-    const userInputSplit = userInput.split(",");
-    const isUserInputArrayCorrectLength = userInputSplit.length === 2;
-    const isStateAbbreviationCorrectLength = userInputSplit[1].trim().length === 2;
-    const isValidCityAndState = isUserInputArrayCorrectLength && isStateAbbreviationCorrectLength // Would result in an index out of bounds error
-    return isValidCityAndState;
-  }
 }
 
 
@@ -215,12 +170,7 @@ window.onload = (e) => {
   weatherApp.UtilsObject.checkStorage();
   weatherApp.DisplayObject.displaySearches();
   clearResultsBtn.addEventListener("click", () => weatherApp.UtilsObject.clearResultsFromLocalStorage());
-  searchBtn.addEventListener("click", () => weatherApp.getUserInputAndPullCityData());
-  document.addEventListener("click", (event) => {
-    if (event.target.classList.contains("result-btn")) {
-      getBtnText(event.target);
-    }
-  });
+  searchBtn.addEventListener("click", () => weatherApp.pullCityData(7, apiKey));
 }
 
 
