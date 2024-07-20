@@ -62,31 +62,6 @@ class WeatherApp
         this.DisplayObject.displayWeatherForecast(response.data.forecast.forecastday);
     })
     .catch((e) => console.log(e));
-
-    /*
-    var api = `https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateCode}&appid=${apiKey}`;
-    fetch(api).then((response) => {
-        if (response.ok) {
-          response.json().then((data) => {
-            var oneCallApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${data.coord.lat}&lon=${data.coord.lon}&exclude={part}&units=imperial&appid=${apiKey}`;
-            fetch(oneCallApi).then((response) => {
-              if (response.ok) {
-                response.json().then((data) => {
-                  console.log(data);
-                  this.DisplayObject.displayCurrentWeatherData(data);
-                  this.DisplayObject.displayWeatherForecast(data);
-                });
-              }
-            });
-          });
-        } else {
-          alert(`Error ${response.statusText}`);
-        }
-      })
-      .catch(function () {
-        alert("No data found!");
-      });
-      */
   };
 }
 
@@ -104,29 +79,6 @@ class Display
       humidity: "#humidity",
       uvIndex: "#uv-index",
       tileContainer: ".tile-container"
-    }
-    this.weatherTypeThumbnailLocationDict = 
-    {
-      "sunny": "./assets/images/sunny-day.svg",
-      "clear": "./assets/images/sunny-day.svg",
-      "partly cloudy": "./assets/images/cloudy-day.svg",
-      "cloudy": "./assets/images/cloudy-day.svg",
-      "overcast": "./assets/images/cloudy-day.svg",
-      "mist": "./assets/images/cloudy-day.svg",
-      "patchy rain possible": "./assets/images/storm-day.svg",
-      "patchy snow possible": "./assets/images/snow.svg",
-      "patchy sleet possible": "./assets/images/snow.svg",
-      "patchy freezing drizzle possible": "./assets/images/storm-day.svg",
-      "thundery outbreaks possible": "./assets/images/storm-day.svg",
-      "blowing snow": "./assets/images/snow.svg",
-      "blizzard": "./assets/images/snow.svg",
-      "fog": "./assets/images/cloudy-day.svg",
-      "freezing": "./assets/images/cloudy-day.svg",
-
-
-      clouds: "./assets/images/cloudy-day.svg",
-      rain: "./assets/images/storm-day.svg",
-      snow: "./assets/images/snow.svg",
     }
   }
 
@@ -152,22 +104,7 @@ class Display
     var counter1 = 1;
     // var counter2 = 1;
     weatherData.forEach(function (day) {
-      var thumbnail;
-      const condition = day.day.condition.text.toLowerCase(); 
-      if (condition === "rain") {
-        thumbnail = this.weatherTypeThumbnailLocationDict.Rain;
-      }
-      if (condition === "clouds") {
-        thumbnail = this.weatherTypeThumbnailLocationDict.clouds;
-      }
-      if (condition === "snow") {
-        thumbnail = this.weatherTypeThumbnailLocationDict.snow;
-      }
-      if (condition === "clear") {
-        thumbnail = this.weatherTypeThumbnailLocationDict.clear;
-      }
       var html = `
-          
           <div class="tile">
               <div class="front">
                   <img class="thumbnail" src=${day.day.condition.icon} alt="">
@@ -184,12 +121,10 @@ class Display
               </div>
               <div class="background"></div>
           </div>
-              
               `;
   
       tileContainer.innerHTML += html;
       counter1++;
-      // counter2++;
     });
   };
   
