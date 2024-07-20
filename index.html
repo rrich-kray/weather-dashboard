@@ -11,31 +11,31 @@
 </head>
 <body>
 
-    <header class="flex-column a-center j-center w-100">
-        <h1>Weather Dashboard</h1>
-        <div class="search-container flex-row w-50">
-            <div class="city-search flex-row j-center a-center">
-                <input type="text" value="Please enter the name of a city and its two letter state abbreviation" class="search">
-                <div class="button-container flex-row">
-                    <button class="search-btn">Search</button>
-                    <button class="clear-results-btn">Clear Searches</button>
+    <div class="main">
+
+        <header class="banner flex-column a-center j-center w-100">
+            <h1>Weather Dashboard</h1>
+            <div class="search-container flex-row w-50">
+                <div class="city-search flex-row j-center a-center">
+                    <input type="text" value="Please enter the name of a city and its two letter state abbreviation" class="search">
+                    <div class="button-container flex-row">
+                        <button class="search-btn">Search</button>
+                        <button class="clear-results-btn">Clear Searches</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="search-results flex-row j-center a-center"></div>
-        <div class="current-container flex-row j-center a-center">
-            <h5>Current:</h5>
-            <p>Temperature: <span id="temp"></span></p>
-            <p>Wind: <span id="wind"></span></p>
-            <p>Humidity: <span id="humidity"></span></p>
-            <p>UVI: <span id="uv-index"></span></p>
-        </div>
-    </header>
-
-    <div class="main-container w-100">
-
-        <div class="tile-container flex-column h-50 w-100">
-
+            <div class="search-results flex-row j-center a-center"></div>
+            <div class="current-container flex-row j-center a-center">
+                <h5>Current:</h5>
+                <p>Temperature: <span id="temp"></span></p>
+                <p>Wind: <span id="wind"></span></p>
+                <p>Humidity: <span id="humidity"></span></p>
+                <p>UVI: <span id="uv-index"></span></p>
+            </div>
+        </header>
+    
+        <div class="main-container w-100">
+            <div class="tile-container flex-column h-50 w-100"></div>
         </div>
 
     </div>
