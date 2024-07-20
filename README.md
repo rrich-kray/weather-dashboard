@@ -17,7 +17,6 @@ This repository contains the HTML, CSS and JavaScript code for the Weather Dashb
 
 Weather dashboard was created so that users can obtain weather for any city in the United States. While this served as a great introductory experience to third-party APIs, I believe there exists significant room for improvement in this application, including:
 
-- Refactoring the codebase to adhere more closely to the SOLID framework for better readability and maintainability.
 - Fixing formatting in some areas to prevent element overlap and to make the application more mobile-friendly. Also, the format in which dates are displayed could be more user-friendly.
 - Expanded customization for users. For example, in its current build, the application only allows users to view a seven day forecast.
 - More robust user input validation.
