@@ -1,0 +1,17 @@
+{
+  "name": "weather-dashboard",
+  "version": "1.0.0",
+  "description": "This repository contains the HTML, CSS and JavaScript code for the Weather Dashboard Project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.3.4"
+  },
+  "dependencies": {
+    "three": "^0.166.1"
+  }
+}
