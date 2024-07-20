@@ -4,16 +4,14 @@ class WeatherApp
   UtilsObject;
   SearchBarElement;
   ClearResultsBtn;
-  ApiUrl;
   ApiKey;
 
-  constructor(displayObject, utilsObject, searchBarElement, clearResultsBtn, apiUrl, apiKey)
+  constructor(displayObject, utilsObject, searchBarElement, clearResultsBtn, apiKey)
   {
     this.DisplayObject = displayObject;
     this.UtilsObject = utilsObject;
     this.SearchBarElement = searchBarElement;
     this.ClearResultsBtn = clearResultsBtn;
-    this.ApiUrl = apiUrl;
     this.ApiKey = apiKey;
   }
 
@@ -53,11 +51,10 @@ class WeatherApp
   {
     // Display searches on page
     this.DisplayObject.displaySearches();
-    const apiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${forecaseRangeinDays}&aqi=no&alerts=no`;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${forecaseRangeinDays}&aqi=no&alerts=no`;
     axios
     .get(apiUrl)
     .then(response => {
-        console.log(response.data);
         this.DisplayObject.displayCurrentWeatherData(response.data.current);
         this.DisplayObject.displayWeatherForecast(response.data.forecast.forecastday);
     })
@@ -199,30 +196,32 @@ class Utils
   }
 }
 
-const clearResultsBtn = document.querySelector(".clear-results-btn");
-const searchBtn = document.querySelector(".search-btn");
-const searchBar = document.querySelector(".search");
-const apiKey = "c73bde0148334fce9db25849241907";
-const apiUrl = "`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${forecaseRangeinDays}&aqi=no&alerts=no"
 
-const weatherApp = new WeatherApp(
+
+window.onload = (e) => {
+  const clearResultsBtn = document.querySelector(".clear-results-btn");
+  const searchBtn = document.querySelector(".search-btn");
+  const searchBar = document.querySelector(".search");
+  const apiKey = "c73bde0148334fce9db25849241907";
+  
+  const weatherApp = new WeatherApp(
     new Display(),
     new Utils(),
     searchBar, 
     clearResultsBtn,
-    apiUrl,
     apiKey
-);
-
-weatherApp.UtilsObject.checkStorage();
-weatherApp.DisplayObject.displaySearches();
-clearResultsBtn.addEventListener("click", () => weatherApp.UtilsObject.clearResultsFromLocalStorage());
-searchBtn.addEventListener("click", () => weatherApp.getUserInputAndPullCityData());
-document.addEventListener("click", (event) => {
-if (event.target.classList.contains("result-btn")) {
-        getBtnText(event.target);
+  );
+  
+  weatherApp.UtilsObject.checkStorage();
+  weatherApp.DisplayObject.displaySearches();
+  clearResultsBtn.addEventListener("click", () => weatherApp.UtilsObject.clearResultsFromLocalStorage());
+  searchBtn.addEventListener("click", () => weatherApp.getUserInputAndPullCityData());
+  document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("result-btn")) {
+      getBtnText(event.target);
     }
-});
+  });
+}
 
 
 // initial page
